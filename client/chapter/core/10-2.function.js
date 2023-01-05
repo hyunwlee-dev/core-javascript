@@ -18,6 +18,13 @@ let resultZ = calcTotal(9000, -2500, 5000, 11900);
 
 // 함수 선언 → 일반 함수 (표현)식
 let calculateTotal = function() {
+
+  //함수 안에서만 접근 가능한 인수들의 집합 객체로서 배열과 유사하여 유사 배열 타입으로 불리는 변수: arguements
+  // arguments 객체를 사용해 함수의 매개변수 없이 아이템의 총합을 구할 수 console.error('있다',있다)
+  
+  // 유사배열은 배열이 아니다. 고로 배열의 능력을 사용하려면 진짜배열로 만들어야 한다.
+  // 배열의 능력: forEach, reduce 
+  //
   // arguments
   console.log(arguments);
 
@@ -59,12 +66,59 @@ let namedFunctionExpression = function hello () {};
 
 
 // 콜백 함수 (표현)식
-let callbackFunctionExpression;
+let callbackFunctionExpression = function(url, resolve, reject) {
+
+  // if (typeof url === "string" && url.includes('http') && url.includes('www'))
+  if (typeof url === "string" && url.match(/http.+www/))
+    resolve(url);
+  else
+    reject();
+}
+
+callbackFunctionExpression(
+  'https://www.naver.com',
+  function(url) {
+    console.log(`${url} 해당 페이지로 이동합니다.`);
+  },
+  function() {
+    throw new Error('url 입력 정보가 올바르지 않습니다.');
+  } 
+);
 
 
 // 함수 선언문 vs. 함수 (표현)식
 
-
 // 즉시 실행 함수 (표현)식
+// 즉시 호출됨 함수의 표현식
 // Immediately Invoked Function Expression
 let IIFE;
+
+(function(){
+  console.log();
+})()
+
+// 모듈 함수가 없었을 시절 사용되었다.
+// 너 getNode 이거 나가
+// getNode 받어
+const MASTER = (function($) {
+  const KEY = 'alcls@#@!$%';
+  //내가 내보내고 싶은 항목들만 내보낼꺼야
+  //모듈로서의 활용
+  // 정보 은닉화 incapsulation: 외부의 접근을 차단
+  // 일부 정보만 노출
+
+  console.log($('.first'));
+
+  return {
+    getKey: function() {
+      return KEY;
+    }
+  }
+
+})(window);
+
+function getNode(node) {
+  return document.querySelector(node);
+}
+
+console.log(MASTER.getKey());
